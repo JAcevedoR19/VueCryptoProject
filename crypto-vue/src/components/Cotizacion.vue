@@ -1,26 +1,46 @@
 <script setup>
-    defineProps({
-        cotizacion: {
-            type: Object,
-            required: true
-        }
-    })
+defineProps({
+  cotizacion: {
+    type: Object,
+    required: true
+  },
+  cantidad: {
+    type: Number,
+    required: true
+  }
+});
+
+const calcularCantidadCripto = (cantidad, precio) => {
+  return cantidad / parseFloat(precio.replace(/[^0-9.-]+/g, ""));
+}
 </script>
 
 <template>
-    <div class="contenedor-resultado">
-        <h2>Cotización</h2>
-
-        <div class="resultado">
-            <img :src="'https://www.cryptocompare.com' + cotizacion.IMAGEURL" 
-            alt="Imagen criptomoneda">
-            <div>
-                <p>El precio es de: <span>{{ cotizacion.PRICE }}</span></p>
-                <p>Precio más alto del día: <span>{{ cotizacion.HIGHDAY }}</span></p>
-                <p>Precio más bajo del día: <span>{{ cotizacion.LOWDAY }}</span></p>
-                <p>Variación ultimas 24 horas: <span>{{ cotizacion.CHANGEPCT24HOUR }} %</span></p>
-                <p>Ultima actualización: <span>{{ cotizacion.LASTUPDATE }}</span></p>
-            </div>
-        </div>
+  <div class="contenedor-resultado">
+    <div class="resultado">
+      <h4>Puedes comprar:</h4>
+      <p><span>{{ calcularCantidadCripto(cantidad, cotizacion.PRICE) }} {{ cotizacion.FROMSYMBOL }}</span> con {{ cantidad }} {{ cotizacion.TOSYMBOL }}</p>
     </div>
+  </div>
 </template>
+
+<style scoped>
+  .contenedor-resultado {
+    margin: 0;
+    padding: 1rem;
+  }
+
+  .resultado {
+    margin-top: 1rem;
+  }
+
+  .resultado p, h4 {
+    margin: 0;
+    padding: 0;
+  }
+
+  h4 {
+    font-weight: 700;
+  }
+
+</style>
